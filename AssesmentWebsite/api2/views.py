@@ -500,6 +500,7 @@ def download(request):
             question_ids.append(Question.objects.filter(fcid = id)[4].qid)
         
         evaluation_id = Evaluation.objects.get(ffuid = user_id, ffqbid = question_bank_id).evid
+        test_time = Evaluation.objects.get(ffuid = user_id, ffqbid = question_bank_id).test_time
         for id in question_ids:
             correct_answers.append(Question.objects.get(qid = id).correct_option)
             selected_answers.append(Score.objects.get(fevid = evaluation_id, fqid = id).selected_answer)
@@ -529,6 +530,7 @@ def download(request):
         n = len(question_ids)
         print("n",n)
         # responses = Apply.objects.filter(internship=response_id)
+        dic["test_time"] = [test_time]*n
         dic['User'] = [Demographic.objects.get(uid = user_id).name]*n
         dic['Rollno'] = [Demographic.objects.get(uid = user_id).rollno]*n
         dic['Programming language'] = [getlanguage(program_language)]*n
@@ -563,7 +565,7 @@ def download(request):
         writer = csv.writer(response)
         writer.writerow(['S.No.', 'User', 'Programming language', 'Level', 'Code','Code Read Time', 'Question','Question Read Time', 'Selected answer', 'Correct answer', 'Decision', 'Marks'])
         for ind in range(df.shape[0]):
-            writer.writerow([ind, df['User'][ind], df["Rollno"][ind], df['Programming language'][ind], df['Level'][ind],df['Code'][ind],df['code_time'][ind],df['Question'][ind],df['question_time'][ind],df['Selected answer'][ind],df['Correct answer'][ind],df['Decision'][ind], df['Marks'][ind]])
+            writer.writerow([ind, df["test_time"][ind], df['User'][ind], df["Rollno"][ind], df['Programming language'][ind], df['Level'][ind],df['Code'][ind],df['code_time'][ind],df['Question'][ind],df['question_time'][ind],df['Selected answer'][ind],df['Correct answer'][ind],df['Decision'][ind], df['Marks'][ind]])
 
         return response
     except Exception as e:
@@ -624,6 +626,7 @@ def download_all(request):
                 question_ids.append(Question.objects.filter(fcid = id)[4].qid)
             
             evaluation_id = Evaluation.objects.get(ffuid = user_id, ffqbid = question_bank_id).evid
+            test_time = Evaluation.objects.get(ffuid = user_id, ffqbid = question_bank_id).test_time
             for id in question_ids:
                 correct_answers.append(Question.objects.get(qid = id).correct_option)
                 selected_answers.append(Score.objects.get(fevid = evaluation_id, fqid = id).selected_answer)
@@ -653,6 +656,7 @@ def download_all(request):
             n = len(question_ids)
             print("n",n)
             # responses = Apply.objects.filter(internship=response_id)
+            dic["test_time"] = [test_time]*n
             dic['User'] = [Demographic.objects.get(uid = user_id).name]*n
             dic['Rollno'] = [Demographic.objects.get(uid = user_id).rollno]*n
             dic['Programming language'] = [getlanguage(program_language)]*n
@@ -685,7 +689,7 @@ def download_all(request):
             writer = csv.writer(response)
             writer.writerow(['S.No.', 'User', 'Programming language', 'Level', 'Code','Code Read Time', 'Question','Question Read Time', 'Selected answer', 'Correct answer', 'Decision', 'Marks'])
             for ind in range(df.shape[0]):
-                writer.writerow([ind, df['User'][ind], df["Rollno"][ind], df['Programming language'][ind], df['Level'][ind],df['Code'][ind],df['code_time'][ind],df['Question'][ind],df['question_time'][ind],df['Selected answer'][ind],df['Correct answer'][ind],df['Decision'][ind], df['Marks'][ind]])
+                writer.writerow([ind, df["test_time"][ind], df['User'][ind], df["Rollno"][ind], df['Programming language'][ind], df['Level'][ind],df['Code'][ind],df['code_time'][ind],df['Question'][ind],df['question_time'][ind],df['Selected answer'][ind],df['Correct answer'][ind],df['Decision'][ind], df['Marks'][ind]])
 
         return response
     except Exception as e:
