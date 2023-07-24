@@ -24,5 +24,6 @@ urlpatterns=[
     path('getquestion/', views.getquestion, name = 'getquestion'),
     path('time/', views.time, name='time'),
     path('time/<pk>', views.time, name='time2'),
-    path('getcsv/', views.getCSV, name = 'getCSV')
+    path('getcsv/', views.getCSV, name = 'getCSV'),
+    path('downloadall/', views.download_all, name='download-all')
 ]
