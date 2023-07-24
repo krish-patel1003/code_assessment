@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.forms import CharField
+from datetime import datetime
 
 gender_choices =(
     ("1", "Female"),
@@ -39,6 +40,7 @@ decision_choices =(
 # Create your models here.
 class Demographic(models.Model):
     uid = models.AutoField(primary_key=True)
+    rollno = models.CharField(max_length=10)
     name = models.CharField(max_length=100)
     email = models.EmailField()
     dob = models.DateField()
@@ -103,6 +105,7 @@ class Evaluation(models.Model):
     evid = models.AutoField(primary_key=True)
     ffuid = models.ForeignKey(Demographic, on_delete=models.CASCADE, null= True)
     ffqbid = models.ForeignKey(QuestionBank, on_delete=models.CASCADE, null= True)
+    test_time = models.DateTimeField(auto_now_add=True)
     
 # class QuestionBankEvaluation(models.Model):
 #     evqbid = models.AutoField(primary_key=True)
